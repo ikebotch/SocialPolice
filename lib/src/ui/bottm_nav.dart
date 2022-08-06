@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/res/icons.dart';
 import 'package:socialpolice/src/ui/home.dart';
+import 'package:socialpolice/src/ui/search.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -46,7 +47,7 @@ class _BottomNavState extends State<BottomNav>
                       return const Home();
                     }
                     if (index == 1) {
-                      return Container();
+                      return const Search();
                     }
                     if (index == 2) {
                       return Container();
