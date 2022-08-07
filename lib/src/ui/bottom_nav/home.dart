@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:socialpolice/src/res/colors.dart';
+import 'package:socialpolice/src/ui/report_live_crime.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -34,7 +35,14 @@ class Home extends StatelessWidget {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ReportLiveCrime(),
+                        ),
+                      );
+                    },
                     child: const Icon(Icons.camera_alt, size: 41),
                   )
                 ],

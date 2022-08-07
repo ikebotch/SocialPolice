@@ -25,4 +25,9 @@ class AppIcon {
   static const AppIcon messageNav = AppIcon('assets/images/svg/message.svg');
   static const AppIcon profile = AppIcon('assets/images/svg/profile.svg');
   static const AppIcon cap = AppIcon('assets/images/svg/cap.svg');
+  static const AppIcon rotate = AppIcon('assets/images/svg/rotate.svg');
+  static const AppIcon flashOff = AppIcon('assets/images/svg/flash_off.svg');
+  static const AppIcon gallery = AppIcon('assets/images/svg/pictures.svg');
+  static const AppIcon camera = AppIcon('assets/images/svg/camera.svg');
+  static const AppIcon close = AppIcon('assets/images/svg/x.svg');
 }
