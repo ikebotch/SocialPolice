@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/ui/components/search_bar.dart';
+import 'package:socialpolice/src/ui/incident_report.dart';
 
 class Search extends StatelessWidget {
   const Search({Key? key}) : super(key: key);
@@ -27,7 +28,15 @@ class Search extends StatelessWidget {
               itemCount: 6,
               shrinkWrap: true,
               itemBuilder: (BuildContext ctx, index) {
-                return item();
+                return GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const IncidentReport(),
+                    ),
+                  ),
+                  child: item(),
+                );
               },
               separatorBuilder: (BuildContext ctx, index) {
                 return Container(
