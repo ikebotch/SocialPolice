@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/ui/components/search_bar.dart';
 
-class Search extends StatelessWidget {
-  const Search({Key? key}) : super(key: key);
+class Message extends StatelessWidget {
+  const Message({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +16,23 @@ class Search extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             const Text(
-              'Search',
+              'Message',
               style: TextStyle(
                 fontSize: 40,
               ),
             ),
             const SearchBar(),
             const SizedBox(height: 30),
-            ListView.builder(
+            ListView.separated(
               itemCount: 6,
               shrinkWrap: true,
               itemBuilder: (BuildContext ctx, index) {
                 return item();
+              },
+              separatorBuilder: (BuildContext ctx, index) {
+                return const Divider(
+                  thickness: 0.8,
+                );
               },
             )
           ],
@@ -38,14 +43,14 @@ class Search extends StatelessWidget {
 
   Container item() {
     return Container(
-      height: 84,
+      height: 80,
       // color: Colors.white,
       margin: const EdgeInsets.only(bottom: 5),
       child: Row(
         children: [
           Container(
-            height: 36,
-            width: 36,
+            height: 55,
+            width: 55,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.black,
@@ -56,10 +61,18 @@ class Search extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              Text('Police Brutality'),
-              Text('loren'),
+              Text('Alex Marchal'),
+              Text(
+                'I have some questions',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppColors.textColor1,
+                ),
+              ),
             ],
           ),
+          const Spacer(),
+          const Icon(Icons.chevron_right)
         ],
       ),
     );

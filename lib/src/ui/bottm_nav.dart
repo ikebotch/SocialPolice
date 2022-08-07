@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/res/icons.dart';
-import 'package:socialpolice/src/ui/home.dart';
-import 'package:socialpolice/src/ui/search.dart';
+import 'package:socialpolice/src/ui/bottom_nav/home.dart';
+import 'package:socialpolice/src/ui/bottom_nav/message.dart';
+import 'package:socialpolice/src/ui/bottom_nav/profile.dart';
+import 'package:socialpolice/src/ui/bottom_nav/search.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -53,9 +55,9 @@ class _BottomNavState extends State<BottomNav>
                       return Container();
                     }
                     if (index == 3) {
-                      return Container();
+                      return const Message();
                     }
-                    return Container();
+                    return const Profile();
                   },
                 ),
               ),
