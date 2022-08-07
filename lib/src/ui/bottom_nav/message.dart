@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:socialpolice/src/res/colors.dart';
+import 'package:socialpolice/src/ui/chat.dart';
 import 'package:socialpolice/src/ui/components/search_bar.dart';
 
 class Message extends StatelessWidget {
@@ -27,7 +28,15 @@ class Message extends StatelessWidget {
               itemCount: 6,
               shrinkWrap: true,
               itemBuilder: (BuildContext ctx, index) {
-                return item();
+                return InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Chat(),
+                    ),
+                  ),
+                  child: item(),
+                );
               },
               separatorBuilder: (BuildContext ctx, index) {
                 return const Divider(
