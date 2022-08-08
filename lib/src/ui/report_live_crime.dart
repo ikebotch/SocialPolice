@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:socialpolice/src/res/icons.dart';
+import 'package:socialpolice/src/ui/report_crime.dart';
 
 class ReportLiveCrime extends StatelessWidget {
   const ReportLiveCrime({Key? key}) : super(key: key);
@@ -49,7 +50,15 @@ class ReportLiveCrime extends StatelessWidget {
                         width: 41,
                         height: 43,
                       ),
-                      Container(child: AppIcon.camera.drawSvg(size: 41)),
+                      InkWell(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ReportCrime(),
+                          ),
+                        ),
+                        child: AppIcon.camera.drawSvg(size: 59),
+                      ),
                       Image.asset(
                         'assets/images/rotate.png',
                         width: 41,
