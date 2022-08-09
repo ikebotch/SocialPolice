@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:socialpolice/src/res/colors.dart';
+import 'package:socialpolice/src/ui/news_alert.dart';
 import 'package:socialpolice/src/ui/report_live_crime.dart';
 
 class Home extends StatelessWidget {
@@ -62,17 +63,25 @@ class Home extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text('Latest News'),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              height: 77,
-              width: double.infinity,
-              color: AppColors.colorRed1,
-              child: const Center(
-                child: Text(
-                  'News Alert',
-                  style: TextStyle(
-                    fontSize: 32,
-                    color: Colors.white,
+            InkWell(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NewsAlert(),
+                ),
+              ),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                height: 77,
+                width: double.infinity,
+                color: AppColors.colorRed1,
+                child: const Center(
+                  child: Text(
+                    'News Alert',
+                    style: TextStyle(
+                      fontSize: 32,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
