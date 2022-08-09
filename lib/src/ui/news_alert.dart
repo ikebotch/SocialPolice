@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:socialpolice/src/ui/components/search_bar.dart';
+import 'package:socialpolice/src/ui/news_alert_view.dart';
 
 class NewsAlert extends StatelessWidget {
   const NewsAlert({Key? key}) : super(key: key);
@@ -40,7 +41,15 @@ class NewsAlert extends StatelessWidget {
                 itemCount: 2,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext ctx, index) {
-                  return item(context);
+                  return InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NewsAlertView(),
+                      ),
+                    ),
+                    child: item(context),
+                  );
                 },
                 separatorBuilder: (BuildContext ctx, index) {
                   return Container(

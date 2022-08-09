@@ -5,11 +5,13 @@ class Header extends StatelessWidget {
   String title;
   String actionTitle;
   Function action;
+  Widget? trailing;
   Header({
     Key? key,
     required this.title,
     required this.actionTitle,
     required this.action,
+    this.trailing,
   }) : super(key: key);
 
   @override
@@ -34,13 +36,14 @@ class Header extends StatelessWidget {
           const Spacer(),
           InkWell(
             onTap: () => action(),
-            child: Text(
-              actionTitle,
-              style: GoogleFonts.redHatDisplay(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            child: trailing ??
+                Text(
+                  actionTitle,
+                  style: GoogleFonts.redHatDisplay(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
           ),
         ],
       ),
