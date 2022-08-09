@@ -8,11 +8,10 @@ class IncidentReport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          margin: const EdgeInsets.only(top: 70),
+          margin: const EdgeInsets.only(top: 40),
           color: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

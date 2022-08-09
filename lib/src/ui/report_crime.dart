@@ -25,8 +25,8 @@ class _ReportCrimeState extends State<ReportCrime> {
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          margin: const EdgeInsets.only(top: 70),
           color: Colors.white,
+          padding: const EdgeInsets.only(top: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

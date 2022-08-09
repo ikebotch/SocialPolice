@@ -10,14 +10,15 @@ class NewsAlertView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.black,
+      //   elevation: 0,
+      //   automaticallyImplyLeading: false,
+      // ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         color: Colors.white,
+        padding: const EdgeInsets.only(top: 40),
         child: Column(
           children: [
             Header(

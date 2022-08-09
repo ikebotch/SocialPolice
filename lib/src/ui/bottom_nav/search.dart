@@ -12,10 +12,10 @@ class Search extends StatelessWidget {
       child: Container(
         color: AppColors.colorBackground,
         margin: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.only(top: 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
             const Text(
               'Search',
               style: TextStyle(
@@ -23,7 +23,7 @@ class Search extends StatelessWidget {
               ),
             ),
             const SearchBar(),
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
             ListView.separated(
               itemCount: 6,
               shrinkWrap: true,

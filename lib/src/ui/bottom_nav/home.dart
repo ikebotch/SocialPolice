@@ -13,6 +13,7 @@ class Home extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height,
+        padding: const EdgeInsets.only(top: 40),
         decoration: const BoxDecoration(
           gradient: AppColors.gradientApp,
         ),
@@ -20,7 +21,7 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Row(
                 children: [
                   Container(
@@ -64,10 +65,13 @@ class Home extends StatelessWidget {
                   context,
                   AppIcon.cap.drawSvg(size: 32, color: Colors.white),
                 ),
-                choose(
-                  'Ambulance',
-                  context,
-                  AppIcon.ambulance.drawSvg(size: 32),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: choose(
+                    'Ambulance',
+                    context,
+                    AppIcon.ambulance.drawSvg(size: 32),
+                  ),
                 ),
               ],
             ),
@@ -79,7 +83,7 @@ class Home extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 'Latest News',
                 style: GoogleFonts.montserrat(
@@ -97,8 +101,7 @@ class Home extends StatelessWidget {
                 ),
               ),
               child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: const EdgeInsets.only(right: 20, left: 20, top: 10),
                 height: 77,
                 width: double.infinity,
                 color: AppColors.colorRed1,
@@ -122,9 +125,9 @@ class Home extends StatelessWidget {
 
   Container choose(String name, BuildContext context, Widget icon) {
     return Container(
-      margin: const EdgeInsets.only(left: 10),
+      margin: const EdgeInsets.only(left: 20),
       height: 100,
-      width: (MediaQuery.of(context).size.width - 30) / 2,
+      width: (MediaQuery.of(context).size.width - 60) / 2,
       decoration: BoxDecoration(
         color: AppColors.cardColor1,
         borderRadius: BorderRadius.circular(8),

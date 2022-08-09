@@ -24,7 +24,7 @@ class ReportLiveCrime extends StatelessWidget {
                 top: 100,
                 width: MediaQuery.of(context).size.width,
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

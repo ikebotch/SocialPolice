@@ -7,10 +7,10 @@ class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       body: Container(
         color: Colors.white,
-        margin: const EdgeInsets.only(top: 70),
+        padding: const EdgeInsets.only(top: 40),
         child: Column(
           children: [
             Container(
@@ -93,7 +93,7 @@ class Chat extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     width: MediaQuery.of(context).size.width * 0.85,
-                    margin: const EdgeInsets.only(left: 15),
+                    margin: const EdgeInsets.only(left: 20),
                     child: TextFormField(
                       decoration: const InputDecoration(
                         contentPadding: EdgeInsets.only(left: 10),
@@ -104,7 +104,7 @@ class Chat extends StatelessWidget {
                   ),
                   const Spacer(),
                   const Padding(
-                    padding: EdgeInsets.only(right: 10),
+                    padding: EdgeInsets.only(right: 20),
                     child: Icon(Icons.send),
                   ),
                 ],
