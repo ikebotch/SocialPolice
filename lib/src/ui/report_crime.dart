@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:socialpolice/src/res/colors.dart';
+import 'package:socialpolice/src/ui/components/header.dart';
+import 'package:socialpolice/src/ui/components/two_row_text.dart';
+import 'package:socialpolice/src/ui/preview_report_crime.dart';
 
 class ReportCrime extends StatefulWidget {
   const ReportCrime({Key? key}) : super(key: key);
@@ -10,6 +13,9 @@ class ReportCrime extends StatefulWidget {
 }
 
 class _ReportCrimeState extends State<ReportCrime> {
+  final TextEditingController _controller = TextEditingController(
+      text:
+          'This is a long string of text that will eventually wrap—good thing we have an input that is able to support it!');
   List<String> items = ['Theft', 'Arson', 'Burglary', 'Cybercrime'];
   var selectedItem = 'Theft';
   @override
@@ -24,35 +30,18 @@ class _ReportCrimeState extends State<ReportCrime> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 75,
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () => Navigator.pop(context),
-                      child: const Icon(Icons.arrow_back),
+              Header(
+                title: 'Report Crime',
+                actionTitle: 'Next',
+                action: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PreviewReportCrime(
+                      incidentType: selectedItem,
+                      desc: _controller.text,
+                      img: 'assets/images/pexels_cop.png',
                     ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Report Crime',
-                      style: GoogleFonts.redHatDisplay(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {},
-                      child: Text(
-                        'Next',
-                        style: GoogleFonts.redHatDisplay(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               const Divider(thickness: 1),
@@ -107,28 +96,9 @@ class _ReportCrimeState extends State<ReportCrime> {
                   },
                 ),
               ),
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Description',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Text(
-                      '600/1200',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
+              const TwoRowText(
+                leftTitle: 'Description',
+                rightTitle: '600/1200',
               ),
               Container(
                 margin:
@@ -137,9 +107,7 @@ class _ReportCrimeState extends State<ReportCrime> {
                   color: AppColors.colorBorderGrey4,
                 ),
                 child: TextFormField(
-                  controller: TextEditingController()
-                    ..text =
-                        'This is a long string of text that will eventually wrap—good thing we have an input that is able to support it!',
+                  controller: _controller,
                   maxLines: null,
                   minLines: 6,
                   keyboardType: TextInputType.multiline,
