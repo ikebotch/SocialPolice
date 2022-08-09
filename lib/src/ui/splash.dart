@@ -9,14 +9,7 @@ class Splash extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.colorPrimary,
-              AppColors.colorSecondary,
-            ],
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-          ),
+          gradient: AppColors.gradientApp,
         ),
         child: Stack(
           children: [

@@ -34,6 +34,7 @@ class _BottomNavState extends State<BottomNav>
         appBar: AppBar(
           backgroundColor: Colors.black,
           elevation: 0,
+          automaticallyImplyLeading: false,
         ),
         body: Column(
           children: [

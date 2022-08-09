@@ -16,4 +16,13 @@ class AppColors {
   static const Color colorBlue2 = Color(0xFFEFF3FE);
   static const Color colorStroke = Color(0xFFFBEEFF);
   static const Color textColor1 = Color(0xFFCBCBCB);
+  static const Color cardColor1 = Color(0xFFA0C1F3);
+  static const gradientApp = LinearGradient(
+    colors: [
+      AppColors.colorPrimary,
+      AppColors.colorSecondary,
+    ],
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
+  );
 }

@@ -30,4 +30,6 @@ class AppIcon {
   static const AppIcon gallery = AppIcon('assets/images/svg/pictures.svg');
   static const AppIcon camera = AppIcon('assets/images/svg/camera.svg');
   static const AppIcon close = AppIcon('assets/images/svg/x.svg');
+  static const AppIcon fire = AppIcon('assets/images/svg/fire.svg');
+  static const AppIcon ambulance = AppIcon('assets/images/svg/ambulance.svg');
 }

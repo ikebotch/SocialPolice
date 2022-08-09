@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:socialpolice/src/res/colors.dart';
+import 'package:socialpolice/src/res/icons.dart';
 import 'package:socialpolice/src/ui/news_alert.dart';
 import 'package:socialpolice/src/ui/report_live_crime.dart';
 
@@ -10,7 +12,10 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        color: AppColors.colorBackground,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+          gradient: AppColors.gradientApp,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -27,11 +32,12 @@ class Home extends StatelessWidget {
                       child: Image.asset('assets/images/avatar.png'),
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Fransica Sika',
-                    style: TextStyle(
+                    style: GoogleFonts.redHatDisplay(
                       fontSize: 25,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
                     ),
                   ),
                   const Spacer(),
@@ -44,7 +50,8 @@ class Home extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Icon(Icons.camera_alt, size: 41),
+                    child: const Icon(Icons.camera_alt,
+                        size: 41, color: Colors.white),
                   )
                 ],
               ),
@@ -52,16 +59,35 @@ class Home extends StatelessWidget {
             const SizedBox(height: 20),
             Row(
               children: [
-                choose('Police', context),
-                choose('Ambulance', context),
+                choose(
+                  'Police',
+                  context,
+                  AppIcon.cap.drawSvg(size: 32, color: Colors.white),
+                ),
+                choose(
+                  'Ambulance',
+                  context,
+                  AppIcon.ambulance.drawSvg(size: 32),
+                ),
               ],
             ),
             const SizedBox(height: 20),
-            choose('Fire', context),
+            choose(
+              'Fire',
+              context,
+              AppIcon.fire.drawSvg(size: 32),
+            ),
             const SizedBox(height: 40),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text('Latest News'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                'Latest News',
+                style: GoogleFonts.montserrat(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
             ),
             InkWell(
               onTap: () => Navigator.push(
@@ -71,16 +97,18 @@ class Home extends StatelessWidget {
                 ),
               ),
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 height: 77,
                 width: double.infinity,
                 color: AppColors.colorRed1,
-                child: const Center(
+                child: Center(
                   child: Text(
                     'News Alert',
-                    style: TextStyle(
+                    style: GoogleFonts.montserrat(
                       fontSize: 32,
                       color: Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -92,28 +120,31 @@ class Home extends StatelessWidget {
     );
   }
 
-  Container choose(String name, BuildContext context) {
+  Container choose(String name, BuildContext context, Widget icon) {
     return Container(
       margin: const EdgeInsets.only(left: 10),
       height: 100,
       width: (MediaQuery.of(context).size.width - 30) / 2,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardColor1,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: const [
-          BoxShadow(
-            color: AppColors.colorBorderGrey1,
-            blurRadius: 10,
-            offset: Offset(0.1, 0.5),
-          )
-        ],
       ),
       child: Center(
-        child: Text(
-          name,
-          style: const TextStyle(
-            fontSize: 20,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: icon,
+            ),
+            Text(
+              name,
+              style: GoogleFonts.montserrat(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
       ),
     );
