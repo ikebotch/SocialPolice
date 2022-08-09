@@ -5,6 +5,7 @@ import 'package:socialpolice/src/ui/bottom_nav/home.dart';
 import 'package:socialpolice/src/ui/bottom_nav/message.dart';
 import 'package:socialpolice/src/ui/bottom_nav/profile.dart';
 import 'package:socialpolice/src/ui/bottom_nav/search.dart';
+import 'package:socialpolice/src/ui/incident_report_old.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -51,9 +52,9 @@ class _BottomNavState extends State<BottomNav>
                     if (index == 1) {
                       return const Search();
                     }
-                    if (index == 2) {
-                      return Container();
-                    }
+                    // if (index == 2) {
+                    //   return const IncidentReportOld();
+                    // }
                     if (index == 3) {
                       return const Message();
                     }
@@ -119,7 +120,12 @@ class _BottomNavState extends State<BottomNav>
                                 : AppColors.colorSecondary,
                           )),
                       onTap: () {
-                        _pageCtrl.jumpToPage(2);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IncidentReportOld(),
+                          ),
+                        );
                       },
                     ),
                   ),
