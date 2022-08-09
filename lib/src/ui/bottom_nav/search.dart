@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/ui/components/search_bar.dart';
 import 'package:socialpolice/src/ui/incident_report.dart';
 
-class Search extends StatelessWidget {
+class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
 
+  @override
+  State<Search> createState() => _SearchState();
+}
+
+class _SearchState extends State<Search> {
+  List<String> data = [
+    'Police Brutality',
+    'Theft',
+    'Robbery',
+    'Cybercrime',
+    'Arson',
+    'Burglary',
+    'Rape',
+    'Domestic Violence',
+  ];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
         color: AppColors.colorBackground,
-        margin: const EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.only(top: 40),
+        height: MediaQuery.of(context).size.height,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -22,30 +39,33 @@ class Search extends StatelessWidget {
                 fontSize: 40,
               ),
             ),
-            const SearchBar(),
             const SizedBox(height: 10),
-            ListView.separated(
-              itemCount: 6,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext ctx, index) {
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const IncidentReport(),
+            const SearchBar(),
+            Expanded(
+              flex: 1,
+              child: ListView.separated(
+                itemCount: data.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext ctx, index) {
+                  return GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const IncidentReport(),
+                      ),
                     ),
-                  ),
-                  child: item(),
-                );
-              },
-              separatorBuilder: (BuildContext ctx, index) {
-                return Container(
-                  margin: const EdgeInsets.only(left: 46),
-                  child: const Divider(
-                    thickness: 0.8,
-                  ),
-                );
-              },
+                    child: item(index),
+                  );
+                },
+                separatorBuilder: (BuildContext ctx, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(left: 46),
+                    child: const Divider(
+                      thickness: 0.8,
+                    ),
+                  );
+                },
+              ),
             )
           ],
         ),
@@ -53,7 +73,7 @@ class Search extends StatelessWidget {
     );
   }
 
-  Container item() {
+  Container item(int index) {
     return Container(
       height: 80,
       // color: Colors.white,
@@ -72,9 +92,21 @@ class Search extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('Police Brutality'),
-              Text('loren'),
+            children: [
+              Text(
+                data[index],
+                style: GoogleFonts.montserrat(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                'loren loren',
+                style: GoogleFonts.montserrat(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ],
           ),
         ],
