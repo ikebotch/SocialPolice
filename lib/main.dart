@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:socialpolice/src/ui/bottm_nav.dart';
+import 'package:socialpolice/src/ui/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BottomNav(),
+      home: Splash(),
     );
   }
 }
