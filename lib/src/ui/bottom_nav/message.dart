@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/ui/chat.dart';
 import 'package:socialpolice/src/ui/components/search_bar.dart';
@@ -11,15 +12,16 @@ class Message extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         color: AppColors.colorBackground,
-        margin: const EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.only(top: 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Message',
-              style: TextStyle(
+              style: GoogleFonts.montserrat(
                 fontSize: 40,
+                fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(height: 10),
@@ -70,13 +72,20 @@ class Message extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('Alex Marchal'),
+            children: [
+              Text(
+                'Alex Marchal',
+                style: GoogleFonts.redHatDisplay(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               Text(
                 'I have some questions',
-                style: TextStyle(
+                style: GoogleFonts.publicSans(
                   fontSize: 13,
                   color: AppColors.textColor1,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ],

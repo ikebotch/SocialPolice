@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -6,17 +7,18 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
+      padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 20),
-          const Padding(
-            padding: EdgeInsets.only(left: 10, bottom: 10),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, bottom: 10),
             child: Text(
               'Profile',
-              style: TextStyle(
+              style: GoogleFonts.redHatDisplay(
                 fontSize: 20,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -54,15 +56,18 @@ class Profile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Stack(
-              children: const [
+              children: [
                 Align(
                   alignment: Alignment.center,
                   child: Text(
                     'Dustin Warren',
-                    style: TextStyle(fontSize: 24),
+                    style: GoogleFonts.redHatDisplay(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.topRight,
                   child: Icon(Icons.edit),
                 ),
@@ -84,8 +89,9 @@ class Profile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Text(
         name,
-        style: const TextStyle(
+        style: GoogleFonts.montserrat(
           fontSize: 16,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

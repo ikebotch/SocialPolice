@@ -8,7 +8,7 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45,
+      height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border.all(
@@ -18,9 +18,11 @@ class SearchBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 10),
           border: InputBorder.none,
-          hintText: '',
+          hintText: 'Search',
           suffixIcon: Icon(Icons.search, size: 30),
         ),
       ),
