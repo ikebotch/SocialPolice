@@ -39,7 +39,7 @@ class _PreviewReportCrimeState extends State<PreviewReportCrime> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         color: Colors.white,
-        padding: const EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
         child: Column(
           children: [
             Header(
