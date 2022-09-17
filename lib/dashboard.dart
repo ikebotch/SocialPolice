@@ -7,6 +7,14 @@ class DashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: new AppBar(
+        title: new Text("Activities"),
+        leading: new Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image(image: AssetImage('assets/images/glogo.png')),
+        ),
+      ),
+    );
   }
 }
