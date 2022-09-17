@@ -23,7 +23,7 @@ const loginTextstyle1 = TextStyle(
 );
 
 const termscondiion = TextStyle(
-  fontFamily: 'Montserrat-Regular',
+  fontFamily: 'Roboto-Regular',
   fontSize: 12.0,
   fontWeight: FontWeight.w300,
   color: Colors.white,
