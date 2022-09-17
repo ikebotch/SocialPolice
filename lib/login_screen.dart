@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:socialpolice/custom_button.dart';
 import 'package:socialpolice/dashboard.dart';
 import 'package:socialpolice/sign_up_screen.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:socialpolice/text_style.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
@@ -91,16 +92,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         border: InputBorder.none,
                         hintText: 'Email',
                         labelStyle: TextStyle(color: Color(0xffBEBDBD))),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))
-                    ],
+                    // inputFormatters: [
+                    //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))
+                    // ],
                     controller: _email,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Email';
-                      }
-                      return null;
-                    },
+                    validator: (value) => EmailValidator.validate(value!)
+                        ? null
+                        : "Please enter a valid email",
                   ),
                 ),
               ),
@@ -242,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     },
                     child: Text(
-                      " Log In",
+                      " sign up",
                       style: reminderstyle,
                     ),
                   ),

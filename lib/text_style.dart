@@ -48,7 +48,7 @@ const logotextstyle2 = TextStyle(
   fontFamily: 'PublicSans',
   fontSize: 18.0,
   fontWeight: FontWeight.w500,
-  color: Colors.blue,
+  color: Colors.white,
   decoration: TextDecoration.none,
 );
 const loginstyle = TextStyle(
