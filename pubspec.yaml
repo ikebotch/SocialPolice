@@ -34,6 +34,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_signin_button: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  
   fonts:
     - family: Montserrat-Black
       fonts:
@@ -95,5 +97,21 @@ flutter:
     - family: fonts/Montserrat-SemiBold
       fonts:
         - asset: fonts/Montserrat-SemiBold.ttf
+
+    - family: PublicSans
+      fonts:
+        - asset: fonts/PublicSans-ExtraBold.ttf
+          weight: 800
+        - asset: fonts/PublicSans-Medium.ttf
+          weight: 500
+        - asset: fonts/PublicSans-Regular.ttf
+          weight: 400
+        - asset: fonts/PublicSans-SemiBold.ttf
+          weight: 600
+        - asset: fonts/PublicSans-Black.ttf
+          weight: 900
+        - asset: fonts/PublicSans-Bold.ttf
+          weight: 700
+          
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
