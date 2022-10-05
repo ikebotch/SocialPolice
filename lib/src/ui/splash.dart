@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:socialpolice/src/res/colors.dart';
-import 'package:socialpolice/src/ui/bottm_nav.dart';
+import 'package:socialpolice/src/res/dimens.dart';
+import 'package:socialpolice/src/ui/login.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _SplashState extends State<Splash> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const BottomNav(),
+            builder: (context) => const Login(),
           ),
         );
       });
@@ -27,6 +28,7 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
+    Dimens().init(context);
     return Scaffold(
       body: SafeArea(
         top: false,
