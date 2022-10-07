@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:socialpolice/src/providers/service_provider.dart';
+import 'package:socialpolice/src/providers/services_prov.dart';
 import 'package:socialpolice/src/res/colors.dart';
-import 'package:socialpolice/src/res/dimens.dart';
-import 'package:socialpolice/src/ui/login.dart';
+import 'package:socialpolice/src/ui/bottom_nav/home.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -11,24 +14,44 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  final ServiceBloc _serviceBloc = ServiceBloc();
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 500), () {
+    getService();
+
+    listener(context);
+  }
+
+  next(BuildContext context) {
+    Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const Login(),
+            builder: (context) => const Home(),
           ),
         );
       });
     });
   }
 
+  getService() {
+    _serviceBloc.getServices();
+  }
+
+  listener(BuildContext context) {
+    _serviceBloc.getServicesFetcher.listen((event) {
+      context.read<ServicesProv>().addAllServicess(event);
+      if (kDebugMode) {
+        print(event[0].servicename);
+      }
+      next(context);
+    }).onError((error) {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    Dimens().init(context);
     return Scaffold(
       body: SafeArea(
         top: false,
