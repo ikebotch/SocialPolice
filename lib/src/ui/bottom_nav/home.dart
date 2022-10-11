@@ -58,9 +58,9 @@ class _HomeState extends State<Home> {
   }
 
   _toIncidentPage(serviceType) {
-    AppRoute.navigateReplace(
-        context,
-        IncidentReportOld(
+    AppRoute.navigatePush(
+        context: context,
+        page: IncidentReportOld(
           serviceType: serviceType,
           account: widget.account,
         ));
