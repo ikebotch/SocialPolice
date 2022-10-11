@@ -7,6 +7,8 @@ class User {
   String username = '';
   String email = '';
   bool isActive = false;
+  String password = '';
+  String token = '';
 
   User();
 
@@ -29,6 +31,7 @@ class User {
     username = json["username"];
     email = json["email"];
     isActive = json["isActive"];
+    password = json["password"];
   }
 
   Map<String, dynamic> toJson() => {
@@ -38,5 +41,11 @@ class User {
         'username': username,
         'email': email,
         'isActive': isActive,
+        'password': password,
+      };
+
+  Map<String, dynamic> loginToJson() => {
+        'username': username,
+        'password': password,
       };
 }

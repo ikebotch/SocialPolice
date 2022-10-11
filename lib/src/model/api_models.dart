@@ -72,7 +72,7 @@ class BaseError {
 
   BaseError.fromJson(Map<String, dynamic> json) {
     url = json['url'];
-    errorCode = json['error_code'];
+    errorCode = json['code'];
     errorMessage = json['message'];
   }
 

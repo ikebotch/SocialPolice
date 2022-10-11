@@ -1,11 +1,24 @@
+import 'package:camera/camera.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socialpolice/src/providers/services_prov.dart';
 import 'package:socialpolice/src/res/dimens.dart';
+import 'package:socialpolice/src/settings/secured_storage.dart';
 import 'package:socialpolice/src/ui/splash.dart';
 import 'package:socialpolice/src/utils/constants.dart';
 
-void main() {
+List<CameraDescription> cameras = [];
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    print('Error in fetching the cameras: $e');
+  }
   runApp(const MyApp());
 }
 
@@ -32,6 +45,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final SecuredStorage _sec = SecuredStorage();
   @override
   Widget build(BuildContext context) {
     Dimens().init(context);
@@ -41,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ChangeNotifierProvider<ServicesProv>(
           create: (_) => ServicesProv(),
         ),
+        Provider<SecuredStorage>(create: (_) => _sec),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -7,7 +7,7 @@ class SubServiceRepository with AppApi {
   String SUB_SERVICE_BASE_URL = Constants.subService;
 
   Future<ApiResponse> getSubServiceByServiceName(String serviceName) async {
-    var apiRequest = ApiRequest("/$serviceName", Constants.GET,
+    var apiRequest = ApiRequest("/service/$serviceName", Constants.GET,
         authTokenType: AuthTokenType.CLIENT);
 
     ApiResponse apiResponse =

@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:socialpolice/src/model/account.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/ui/components/header.dart';
 import 'package:socialpolice/src/ui/components/two_row_text.dart';
@@ -7,12 +12,16 @@ import 'package:socialpolice/src/ui/components/two_row_text.dart';
 class PreviewReportCrime extends StatefulWidget {
   String incidentType;
   String desc;
-  String img;
+  File img;
+  final Account? account;
+  final String? serviceType;
   PreviewReportCrime({
     Key? key,
     required this.incidentType,
     required this.desc,
     required this.img,
+    this.account,
+    this.serviceType,
   }) : super(key: key);
 
   @override
@@ -22,10 +31,70 @@ class PreviewReportCrime extends StatefulWidget {
 class _PreviewReportCrimeState extends State<PreviewReportCrime> {
   late TextEditingController _controller;
 
+  late GoogleMapController _googleMapController;
+  late Position position;
+  static const CameraPosition initialCameraPosition =
+      CameraPosition(target: LatLng(51.5074248, -0.1359362), zoom: 14);
+  Set<Marker> markers = {};
+  bool _isLoading = false;
+  // final FirebaseStorageDataProvider _imageStorage =
+  //     FirebaseStorageDataProvider();
+
+  ValueNotifier<double>? _imageUploadProgress;
+  // uploadImage() async {
+  //   _imageUploadProgress = ValueNotifier(0);
+  //   _imageStorage.uploadImage([widget.img], isIncident: true,
+  //       progress: (int sent, int total) {
+  //     _imageUploadProgress?.value = sent / total;
+  //   });
+  //   return [""];
+  // }
+
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     _controller = TextEditingController(text: widget.desc);
+
+    position = await _determinPosition();
+
+    _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: LatLng(position.latitude, position.longitude), zoom: 14)));
+    markers.clear();
+
+    markers.add(Marker(
+        markerId: const MarkerId('currentLocation'),
+        position: LatLng(position.latitude, position.longitude)));
+
+    setState(() {});
+  }
+
+  Future<Position> _determinPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      return Future.error('Location Service are disabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permission denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -45,7 +114,12 @@ class _PreviewReportCrimeState extends State<PreviewReportCrime> {
             Header(
               title: 'Report Crime',
               actionTitle: 'Post',
-              action: () {},
+              action: () {
+                setState(() {
+                  _isLoading = true;
+                });
+                // uploadImage();
+              },
             ),
             const Divider(thickness: 1),
             Expanded(
@@ -58,8 +132,8 @@ class _PreviewReportCrimeState extends State<PreviewReportCrime> {
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 15),
                       width: MediaQuery.of(context).size.width,
-                      child: Image.asset(
-                        'assets/images/pexels_cop.png',
+                      child: Image.file(
+                        widget.img,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -117,9 +191,14 @@ class _PreviewReportCrimeState extends State<PreviewReportCrime> {
                       height: 194,
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Image.asset(
-                        'assets/images/map.png',
-                        fit: BoxFit.cover,
+                      child: GoogleMap(
+                        initialCameraPosition: initialCameraPosition,
+                        markers: markers,
+                        zoomControlsEnabled: false,
+                        mapType: MapType.normal,
+                        onMapCreated: (GoogleMapController controller) {
+                          _googleMapController = controller;
+                        },
                       ),
                     )
                   ],

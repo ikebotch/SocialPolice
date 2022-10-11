@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socialpolice/src/model/account.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/res/icons.dart';
 import 'package:socialpolice/src/ui/bottom_nav/home.dart';
@@ -8,7 +9,8 @@ import 'package:socialpolice/src/ui/bottom_nav/search.dart';
 import 'package:socialpolice/src/ui/incident_report_old.dart';
 
 class BottomNav extends StatefulWidget {
-  const BottomNav({Key? key}) : super(key: key);
+  final Account? account;
+  const BottomNav({Key? key, this.account}) : super(key: key);
 
   @override
   State<BottomNav> createState() => _BottomNavState();
@@ -50,7 +52,7 @@ class _BottomNavState extends State<BottomNav>
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext ctx, index) {
                     if (index == 0) {
-                      return const Home();
+                      return Home(account: widget.account);
                     }
                     if (index == 1) {
                       return const Search();
@@ -126,7 +128,10 @@ class _BottomNavState extends State<BottomNav>
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const IncidentReportOld(),
+                              builder: (context) => IncidentReportOld(
+                                account: widget.account,
+                                serviceType: 'Police',
+                              ),
                             ),
                           );
                         },

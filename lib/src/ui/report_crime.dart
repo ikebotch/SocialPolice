@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:socialpolice/src/res/colors.dart';
@@ -6,7 +8,11 @@ import 'package:socialpolice/src/ui/components/two_row_text.dart';
 import 'package:socialpolice/src/ui/preview_report_crime.dart';
 
 class ReportCrime extends StatefulWidget {
-  const ReportCrime({Key? key}) : super(key: key);
+  final File? image;
+  const ReportCrime({
+    Key? key,
+    this.image,
+  }) : super(key: key);
 
   @override
   State<ReportCrime> createState() => _ReportCrimeState();
@@ -39,7 +45,7 @@ class _ReportCrimeState extends State<ReportCrime> {
                     builder: (context) => PreviewReportCrime(
                       incidentType: selectedItem,
                       desc: _controller.text,
-                      img: 'assets/images/pexels_cop.png',
+                      img: widget.image!,
                     ),
                   ),
                 ),
@@ -50,8 +56,8 @@ class _ReportCrimeState extends State<ReportCrime> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  'assets/images/pexels_cop.png',
+                child: Image.file(
+                  widget.image!,
                   fit: BoxFit.cover,
                 ),
               ),

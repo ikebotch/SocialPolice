@@ -1,26 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:socialpolice/src/model/account.dart';
 import 'package:socialpolice/src/model/service.dart';
 import 'package:socialpolice/src/providers/services_prov.dart';
+import 'package:socialpolice/src/providers/sub_service_provider.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/res/icons.dart';
 import 'package:socialpolice/src/ui/components/progress_indicator.dart';
+import 'package:socialpolice/src/ui/incident_report_old.dart';
 import 'package:socialpolice/src/ui/news_alert.dart';
 import 'package:socialpolice/src/ui/report_live_crime.dart';
+import 'package:socialpolice/src/utils/navigations.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final Account? account;
+  const Home({
+    Key? key,
+    this.account,
+  }) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  final SubServiceBloc _subServiceBloc = SubServiceBloc();
+  final List<SubService> _policeSub = [];
+  final List<SubService> _fireSub = [];
+  final List<SubService> _rmsSub = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    listener();
+  }
+
+  // getPoliceSub() {
+  //   _subServiceBloc.getsubServiceByServiceName(_services[0].servicename);
+  // }
+
+  // getFireSub() {
+  //   _subServiceBloc.getsubServiceByServiceName(_services[1].servicename);
+  // }
+
+  // getEMSSub() {
+  //   _subServiceBloc.getsubServiceByServiceName(_services[2].servicename);
+  // }
+
+  listener() {
+    // _subServiceBloc.getSubServiceFetcher.listen((event) {
+    //   if (kDebugMode) {
+    //     print(event);
+    //   }
+    // }).onError((error) {});
+  }
+
+  _toIncidentPage(serviceType) {
+    AppRoute.navigateReplace(
+        context,
+        IncidentReportOld(
+          serviceType: serviceType,
+          account: widget.account,
+        ));
   }
 
   late List<Service> _services = [];
@@ -28,6 +71,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     _services = context.watch<ServicesProv>().getService;
+    // getPoliceSub();
+    // getFireSub();
+    // getEMSSub();
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -55,7 +101,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Text(
-                      'Fransica Sika',
+                      widget.account!.user.showName(),
                       style: GoogleFonts.redHatDisplay(
                         fontSize: 25,
                         fontWeight: FontWeight.w700,
@@ -86,27 +132,39 @@ class _HomeState extends State<Home> {
                       children: [
                         Row(
                           children: [
-                            choose(
-                              _services[0].servicename,
-                              context,
-                              AppIcon.cap
-                                  .drawSvg(size: 32, color: Colors.white),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 20),
+                            GestureDetector(
+                              onTap: () =>
+                                  _toIncidentPage(_services[0].servicename),
                               child: choose(
-                                _services[2].servicename,
+                                _services[0].servicename,
                                 context,
-                                AppIcon.ambulance.drawSvg(size: 32),
+                                AppIcon.cap
+                                    .drawSvg(size: 32, color: Colors.white),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () =>
+                                  _toIncidentPage(_services[2].servicename),
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: choose(
+                                  _services[2].servicename,
+                                  context,
+                                  AppIcon.ambulance.drawSvg(size: 32),
+                                ),
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 20),
-                        choose(
-                          _services[1].servicename,
-                          context,
-                          AppIcon.fire.drawSvg(size: 32),
+                        GestureDetector(
+                          onTap: () =>
+                              _toIncidentPage(_services[1].servicename),
+                          child: choose(
+                            _services[1].servicename,
+                            context,
+                            AppIcon.fire.drawSvg(size: 32),
+                          ),
                         ),
                         const SizedBox(height: 40),
                         Padding(

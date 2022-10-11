@@ -1,24 +1,53 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:socialpolice/src/model/account.dart';
+import 'package:socialpolice/src/model/service.dart';
 import 'package:socialpolice/src/res/colors.dart';
+import 'package:socialpolice/src/res/enums.dart';
 import 'package:socialpolice/src/ui/components/header.dart';
 import 'package:socialpolice/src/ui/components/two_row_text.dart';
 import 'package:socialpolice/src/ui/preview_report_crime.dart';
+import 'package:socialpolice/src/utils/utils_upload.dart';
 
 class IncidentReportOld extends StatefulWidget {
-  const IncidentReportOld({Key? key}) : super(key: key);
+  final Account? account;
+  final String serviceType;
+  const IncidentReportOld({
+    Key? key,
+    this.account,
+    required this.serviceType,
+  }) : super(key: key);
 
   @override
   State<IncidentReportOld> createState() => _IncidentReportOldState();
 }
 
 class _IncidentReportOldState extends State<IncidentReportOld> {
-  final TextEditingController _controller = TextEditingController(
-      text:
-          'This is a long string of text that will eventually wrap—good thing we have an input that is able to support it!');
-  List<String> items = ['Theft', 'Arson', 'Burglary', 'Cybercrime'];
-  var selectedItem = 'Theft';
+  final TextEditingController _controller = TextEditingController();
+  List<String> items = [];
+  File? _selectedFile;
+
+  init() {
+    for (var sub in widget.account!.subService) {
+      if (widget.serviceType == sub.servicename) {
+        SubService subServices = sub;
+        items.add(subServices.subservicename);
+      }
+    }
+    selectedItem = items[0];
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
+  var selectedItem = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +72,9 @@ class _IncidentReportOldState extends State<IncidentReportOld> {
                   builder: (context) => PreviewReportCrime(
                     incidentType: selectedItem,
                     desc: _controller.text,
-                    img: 'assets/images/pexels_cop.png',
+                    img: _selectedFile!,
+                    account: widget.account,
+                    serviceType: widget.serviceType,
                   ),
                 ),
               ),
@@ -59,25 +90,37 @@ class _IncidentReportOldState extends State<IncidentReportOld> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: DottedBorder(
-                color: AppColors.colorPrimary,
-                dashPattern: const [8, 4],
-                child: Container(
-                  height: 121,
-                  width: MediaQuery.of(context).size.width,
-                  color: AppColors.colorBlue2,
-                  child: Center(
-                    child: Text(
-                      'Drop files here to upload…',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
+            GestureDetector(
+              onTap: () async {
+                _selectedFile = await UtilsUpload.pickMedia(
+                  source: CameraType.GALLERY,
+                  cropImage: UtilsUpload.cropPredefinedImage,
+                );
+                setState(() {});
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: _selectedFile == null
+                    ? DottedBorder(
+                        color: AppColors.colorPrimary,
+                        dashPattern: const [8, 4],
+                        child: Container(
+                          height: 121,
+                          width: MediaQuery.of(context).size.width,
+                          color: AppColors.colorBlue2,
+                          child: Center(
+                            child: Text(
+                              'Drop files here to upload…',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : _media(),
               ),
             ),
             Padding(
@@ -95,11 +138,8 @@ class _IncidentReportOldState extends State<IncidentReportOld> {
               padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
               child: DropdownButtonFormField<String>(
                 decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                        width: 1, color: AppColors.colorPrimary),
-                  ),
+                  enabledBorder: dropBoxOutlineInputBorder(),
+                  focusedBorder: dropBoxOutlineInputBorder(),
                 ),
                 value: selectedItem,
                 items: items
@@ -144,6 +184,49 @@ class _IncidentReportOldState extends State<IncidentReportOld> {
           ],
         ),
       ),
+    );
+  }
+
+  OutlineInputBorder dropBoxOutlineInputBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: const BorderSide(width: 1, color: AppColors.colorPrimary),
+    );
+  }
+
+  Widget _media() {
+    return Container(
+      child: _selectedFile != null
+          ? Stack(
+              // fit: StackFit.expand,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(
+                    _selectedFile!,
+                    height: 250,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: const BoxDecoration(
+                          color: Colors.black, shape: BoxShape.circle),
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )
+          : Container(),
     );
   }
 }

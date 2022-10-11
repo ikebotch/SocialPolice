@@ -7,6 +7,7 @@ class Constants {
   static String service = '';
   static String subService = '';
   static String incident = '';
+  static String auth = '';
 
   static init({bool? isTest}) {
     if (isTest!) {
@@ -14,7 +15,8 @@ class Constants {
       user = '$API_BASE_URL/users';
       service = '$API_BASE_URL/service';
       subService = '$API_BASE_URL/sub-service';
-      subService = '$API_BASE_URL/incident';
+      incident = '$API_BASE_URL/incident';
+      auth = '$API_BASE_URL/auth';
     } else {
       // live environment
     }
