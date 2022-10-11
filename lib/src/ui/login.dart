@@ -17,6 +17,8 @@ import 'package:socialpolice/src/utils/dialogs.dart';
 import 'package:socialpolice/src/utils/navigations.dart';
 import 'package:socialpolice/src/utils/utils.dart';
 
+import 'bottm_nav.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -63,7 +65,7 @@ class _LoginState extends State<Login> with Dialogs {
     _loginBloc.loading(userCtrlr.text, token);
   }
 
-  listener() async {
+  listener() {
     _loginBloc.loginFetcher.listen((value) {
       _account?.user.token = value;
       _sec!.setUserToken(value);
@@ -74,12 +76,12 @@ class _LoginState extends State<Login> with Dialogs {
       _account = event;
       // _sec!.setAppData(_account!);
       _sec!.saveUser(_account!.user);
-      showInSnackBar("Login Successfully", context, _key);
+      // showInSnackBar("Login Successfully", context, _key);
       context.read<ServicesProv>().addAllServicess(_account!.service);
       setState(() {
         _loading = false;
       });
-      AppRoute.navigateReplace(context, Home(account: _account));
+      AppRoute.navigateReplace(context, BottomNav(account: _account));
     }).onError((error) {});
   }
 
