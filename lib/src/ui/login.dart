@@ -70,7 +70,12 @@ class _LoginState extends State<Login> with Dialogs {
       _account?.user.token = value;
       _sec!.setUserToken(value);
       loading(value);
-    }).onError((error) {});
+    }).onError((error) {
+      showMessage(context, error, dismissLabel: 'Ok');
+      setState(() {
+        _loading = false;
+      });
+    });
 
     _loginBloc.loadingFetcher.listen((event) {
       _account = event;
