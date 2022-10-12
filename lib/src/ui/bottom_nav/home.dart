@@ -7,6 +7,7 @@ import 'package:socialpolice/src/providers/services_prov.dart';
 import 'package:socialpolice/src/providers/sub_service_provider.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/res/icons.dart';
+import 'package:socialpolice/src/ui/components/image_download.dart';
 import 'package:socialpolice/src/ui/components/progress_indicator.dart';
 import 'package:socialpolice/src/ui/incident_report_old.dart';
 import 'package:socialpolice/src/ui/news_alert.dart';
@@ -95,15 +96,24 @@ class _HomeState extends State<Home> {
                       margin: const EdgeInsets.only(right: 10),
                       height: 48,
                       width: 48,
-                      child: CircleAvatar(
-                        radius: 50,
-                        child: Image.asset('assets/images/avatar.png'),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CircleAvatar(
+                          radius: 50,
+                          child: AppImageDownload(
+                            url: widget.account!.user.primaryImage,
+                            placeHolder: widget.account!.user.showName(),
+                            fit: BoxFit.cover,
+                            size: 48,
+                            height: 48,
+                          ),
+                        ),
                       ),
                     ),
                     Text(
                       widget.account!.user.showName(),
                       style: GoogleFonts.redHatDisplay(
-                        fontSize: 25,
+                        fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),

@@ -9,7 +9,6 @@ import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/res/dimens.dart';
 import 'package:socialpolice/src/res/enums.dart';
 import 'package:socialpolice/src/settings/secured_storage.dart';
-import 'package:socialpolice/src/ui/bottom_nav/home.dart';
 import 'package:socialpolice/src/ui/components/buttons.dart';
 import 'package:socialpolice/src/ui/components/input_text.dart';
 import 'package:socialpolice/src/ui/signup.dart';
@@ -80,7 +79,7 @@ class _LoginState extends State<Login> with Dialogs {
     _loginBloc.loadingFetcher.listen((event) {
       _account = event;
       // _sec!.setAppData(_account!);
-      _sec!.saveUser(_account!.user);
+      _sec!.saveUser(event.user);
       // showInSnackBar("Login Successfully", context, _key);
       context.read<ServicesProv>().addAllServicess(_account!.service);
       setState(() {

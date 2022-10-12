@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:socialpolice/src/model/account.dart';
 import 'package:socialpolice/src/model/user.dart';
+import 'package:socialpolice/src/providers/login_provider.dart';
+import 'package:socialpolice/src/providers/services_prov.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/settings/secured_storage.dart';
 import 'package:socialpolice/src/ui/bottm_nav.dart';
@@ -17,13 +20,18 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   // final ServiceBloc _serviceBloc = ServiceBloc();
   SecuredStorage? _securedStorage;
+  final LoginBloc _loginBloc = LoginBloc();
+  Account? _account;
+  User? user;
+
   setup() async {
-    User user = await _securedStorage!.getUserN();
+    user = await _securedStorage!.getUserN();
 
     bool isLoggedIn = await _securedStorage!.isLoggedIn();
     if (isLoggedIn) {
-      if (user.token != '') {
-        next(const BottomNav());
+      if (user!.token != '') {
+        _loginBloc.login(user!);
+
         return;
       }
     } else {
@@ -32,12 +40,34 @@ class _SplashState extends State<Splash> {
     }
   }
 
+  loading() {
+    _loginBloc.loading(user!.username, user!.token);
+  }
+
   @override
   void initState() {
     super.initState();
     // getService();
 
     // listener(context);
+    listener();
+  }
+
+  listener() {
+    _loginBloc.loginFetcher.listen((value) {
+      // user!.token = value;
+      _securedStorage!.setUserToken(value);
+      loading();
+    }).onError((error) {});
+
+    _loginBloc.loadingFetcher.listen((event) {
+      _account = event;
+      // _sec!.setAppData(_account!);
+      _securedStorage!.saveUser(event.user);
+      // showInSnackBar("Login Successfully", context, _key);
+      context.read<ServicesProv>().addAllServicess(_account!.service);
+      next(BottomNav(account: _account));
+    }).onError((error) {});
   }
 
   next(Widget page) {

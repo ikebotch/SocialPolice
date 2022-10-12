@@ -90,39 +90,7 @@ class _IncidentReportOldState extends State<IncidentReportOld> {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () async {
-                _selectedFile = await UtilsUpload.pickMedia(
-                  source: CameraType.GALLERY,
-                  cropImage: UtilsUpload.cropPredefinedImage,
-                );
-                setState(() {});
-              },
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: _selectedFile == null
-                    ? DottedBorder(
-                        color: AppColors.colorPrimary,
-                        dashPattern: const [8, 4],
-                        child: Container(
-                          height: 121,
-                          width: MediaQuery.of(context).size.width,
-                          color: AppColors.colorBlue2,
-                          child: Center(
-                            child: Text(
-                              'Drop files here to upload…',
-                              style: GoogleFonts.montserrat(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    : _media(),
-              ),
-            ),
+            _media(),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
@@ -187,6 +155,27 @@ class _IncidentReportOldState extends State<IncidentReportOld> {
     );
   }
 
+  DottedBorder dropFile() {
+    return DottedBorder(
+      color: AppColors.colorPrimary,
+      dashPattern: const [8, 4],
+      child: Container(
+        height: 121,
+        width: double.infinity,
+        color: AppColors.colorBlue2,
+        child: Center(
+          child: Text(
+            'Drop files here to upload…',
+            style: GoogleFonts.montserrat(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   OutlineInputBorder dropBoxOutlineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
@@ -226,7 +215,18 @@ class _IncidentReportOldState extends State<IncidentReportOld> {
                 )
               ],
             )
-          : Container(),
+          : Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: GestureDetector(
+                onTap: () async {
+                  _selectedFile = await UtilsUpload.pickImage(
+                    source: CameraType.GALLERY,
+                  );
+                  setState(() {});
+                },
+                child: dropFile(),
+              ),
+            ),
     );
   }
 }

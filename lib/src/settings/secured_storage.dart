@@ -60,7 +60,7 @@ class SecuredStorage extends SecuredSettings {
   }
 
   saveUser(User account) {
-    setAndSaveString(User_INFO, json.encode(account));
+    setAndSaveString(NEW_USER, json.encode(account));
   }
 
   saveSignup(User signUp) {
@@ -148,8 +148,14 @@ class SecuredStorage extends SecuredSettings {
 
   Future<User> getUserN() async {
     String? tokenMap = await getStringFromPrefs(NEW_USER);
+    String? tokent = await getStringFromPrefs(USER_TOKEN);
+
     if (tokenMap != null) {
       User user = User.fromJson(json.decode(tokenMap));
+      if (tokent != null) {
+        String token = json.decode(tokent);
+        user.token = token;
+      }
       return user;
     } else {
       return User();

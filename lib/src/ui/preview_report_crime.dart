@@ -51,10 +51,13 @@ class _PreviewReportCrimeState extends State<PreviewReportCrime> {
   // }
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.desc);
+    Future.microtask(() => getLoc);
+  }
 
+  getLoc() async {
     position = await _determinPosition();
 
     _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
@@ -99,115 +102,117 @@ class _PreviewReportCrimeState extends State<PreviewReportCrime> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.black,
-      //   elevation: 0,
-      //   automaticallyImplyLeading: false,
-      // ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        color: Colors.white,
-        padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
-        child: Column(
-          children: [
-            Header(
-              title: 'Report Crime',
-              actionTitle: 'Post',
-              action: () {
-                setState(() {
-                  _isLoading = true;
-                });
-                // uploadImage();
-              },
-            ),
-            const Divider(thickness: 1),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 180,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 15),
-                      width: MediaQuery.of(context).size.width,
-                      child: Image.file(
-                        widget.img,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Incident Type',
-                        style: GoogleFonts.redHatDisplay(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+    return Builder(builder: (context) {
+      return Scaffold(
+        // appBar: AppBar(
+        //   backgroundColor: Colors.black,
+        //   elevation: 0,
+        //   automaticallyImplyLeading: false,
+        // ),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          color: Colors.white,
+          padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
+          child: Column(
+            children: [
+              Header(
+                title: 'Report Crime',
+                actionTitle: 'Post',
+                action: () {
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  // uploadImage();
+                },
+              ),
+              const Divider(thickness: 1),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 180,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 15),
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.file(
+                          widget.img,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 40,
-                      color: AppColors.colorBorderGrey4,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(widget.incidentType),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Incident Type',
+                          style: GoogleFonts.redHatDisplay(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    const TwoRowText(
-                      leftTitle: 'Description',
-                      rightTitle: '600/1200',
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      decoration: const BoxDecoration(
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 40,
                         color: AppColors.colorBorderGrey4,
-                      ),
-                      child: TextFormField(
-                        controller: _controller,
-                        maxLines: null,
-                        minLines: 6,
-                        keyboardType: TextInputType.multiline,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(8),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(widget.incidentType),
+                          ),
                         ),
                       ),
-                    ),
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      child: Text('Location'),
-                    ),
-                    Container(
-                      height: 194,
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      child: GoogleMap(
-                        initialCameraPosition: initialCameraPosition,
-                        markers: markers,
-                        zoomControlsEnabled: false,
-                        mapType: MapType.normal,
-                        onMapCreated: (GoogleMapController controller) {
-                          _googleMapController = controller;
-                        },
+                      const TwoRowText(
+                        leftTitle: 'Description',
+                        rightTitle: '600/1200',
                       ),
-                    )
-                  ],
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        decoration: const BoxDecoration(
+                          color: AppColors.colorBorderGrey4,
+                        ),
+                        child: TextFormField(
+                          controller: _controller,
+                          maxLines: null,
+                          minLines: 6,
+                          keyboardType: TextInputType.multiline,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.all(8),
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Text('Location'),
+                      ),
+                      Container(
+                        height: 194,
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        child: GoogleMap(
+                          initialCameraPosition: initialCameraPosition,
+                          markers: markers,
+                          zoomControlsEnabled: false,
+                          mapType: MapType.normal,
+                          onMapCreated: (GoogleMapController controller) {
+                            _googleMapController = controller;
+                          },
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
