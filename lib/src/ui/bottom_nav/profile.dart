@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:socialpolice/src/model/account.dart';
+import 'package:socialpolice/src/settings/secured_storage.dart';
+import 'package:socialpolice/src/ui/components/image_download.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
+class Profile extends StatefulWidget {
+  final Account? account;
+  final SecuredStorage? securedStorage;
+  const Profile({
+    Key? key,
+    this.account,
+    this.securedStorage,
+  }) : super(key: key);
 
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,13 +45,17 @@ class Profile extends StatelessWidget {
               child: Stack(
                 children: [
                   Align(
-                    child: CircleAvatar(
-                      radius: 50,
-                      child: Image.asset(
-                        'assets/images/avatar.png',
-                        fit: BoxFit.cover,
-                        width: 90,
-                        height: 90,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: CircleAvatar(
+                        radius: 90,
+                        child: AppImageDownload(
+                          url: widget.account!.user.primaryImage,
+                          placeHolder: widget.account!.user.showName(),
+                          fit: BoxFit.cover,
+                          size: 90,
+                          height: 90,
+                        ),
                       ),
                     ),
                   ),
@@ -60,7 +78,7 @@ class Profile extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Dustin Warren',
+                    widget.account!.user.showName(),
                     style: GoogleFonts.redHatDisplay(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
@@ -78,6 +96,11 @@ class Profile extends StatelessWidget {
           item('About'),
           const Divider(),
           item('Settings'),
+          const Divider(),
+          GestureDetector(
+            onTap: () => widget.securedStorage!.logout(context),
+            child: item('Logout'),
+          ),
           const Divider(),
         ],
       ),

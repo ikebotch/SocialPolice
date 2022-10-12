@@ -66,7 +66,7 @@ class _SplashState extends State<Splash> {
       _securedStorage!.saveUser(event.user);
       // showInSnackBar("Login Successfully", context, _key);
       context.read<ServicesProv>().addAllServicess(_account!.service);
-      next(BottomNav(account: _account));
+      next(BottomNav(account: _account, securedStorage: _securedStorage));
     }).onError((error) {});
   }
 
