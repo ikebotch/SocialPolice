@@ -7,6 +7,7 @@ import 'package:socialpolice/src/providers/services_prov.dart';
 import 'package:socialpolice/src/providers/sub_service_provider.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/res/icons.dart';
+import 'package:socialpolice/src/settings/secured_storage.dart';
 import 'package:socialpolice/src/ui/components/image_download.dart';
 import 'package:socialpolice/src/ui/components/progress_indicator.dart';
 import 'package:socialpolice/src/ui/incident_report_old.dart';
@@ -16,9 +17,11 @@ import 'package:socialpolice/src/utils/navigations.dart';
 
 class Home extends StatefulWidget {
   final Account? account;
+  final SecuredStorage? securedStorage;
   const Home({
     Key? key,
     this.account,
+    this.securedStorage,
   }) : super(key: key);
 
   @override
@@ -64,6 +67,7 @@ class _HomeState extends State<Home> {
         page: IncidentReportOld(
           serviceType: serviceType,
           account: widget.account,
+          securedStorage: widget.securedStorage,
         ));
   }
 

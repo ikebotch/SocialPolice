@@ -5,9 +5,16 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:socialpolice/src/model/account.dart';
+import 'package:socialpolice/src/model/incident.dart';
+import 'package:socialpolice/src/providers/firebase_storage_provider.dart';
+import 'package:socialpolice/src/providers/incident_provider.dart';
 import 'package:socialpolice/src/res/colors.dart';
+import 'package:socialpolice/src/settings/secured_storage.dart';
+import 'package:socialpolice/src/ui/bottm_nav.dart';
 import 'package:socialpolice/src/ui/components/header.dart';
 import 'package:socialpolice/src/ui/components/two_row_text.dart';
+import 'package:socialpolice/src/utils/dialogs.dart';
+import 'package:socialpolice/src/utils/utils.dart';
 
 class PreviewReportCrime extends StatefulWidget {
   String incidentType;
@@ -15,6 +22,7 @@ class PreviewReportCrime extends StatefulWidget {
   File img;
   final Account? account;
   final String? serviceType;
+  final SecuredStorage? securedStorage;
   PreviewReportCrime({
     Key? key,
     required this.incidentType,
@@ -22,13 +30,14 @@ class PreviewReportCrime extends StatefulWidget {
     required this.img,
     this.account,
     this.serviceType,
+    this.securedStorage,
   }) : super(key: key);
 
   @override
   State<PreviewReportCrime> createState() => _PreviewReportCrimeState();
 }
 
-class _PreviewReportCrimeState extends State<PreviewReportCrime> {
+class _PreviewReportCrimeState extends State<PreviewReportCrime> with Dialogs {
   late TextEditingController _controller;
 
   late GoogleMapController _googleMapController;
@@ -37,24 +46,77 @@ class _PreviewReportCrimeState extends State<PreviewReportCrime> {
       CameraPosition(target: LatLng(51.5074248, -0.1359362), zoom: 14);
   Set<Marker> markers = {};
   bool _isLoading = false;
-  // final FirebaseStorageDataProvider _imageStorage =
-  //     FirebaseStorageDataProvider();
+
+  final IncidentBloc _incidentBloc = IncidentBloc();
+  final FirebaseStorageDataProvider _imageStorage =
+      FirebaseStorageDataProvider();
 
   ValueNotifier<double>? _imageUploadProgress;
-  // uploadImage() async {
-  //   _imageUploadProgress = ValueNotifier(0);
-  //   _imageStorage.uploadImage([widget.img], isIncident: true,
-  //       progress: (int sent, int total) {
-  //     _imageUploadProgress?.value = sent / total;
-  //   });
-  //   return [""];
-  // }
+  uploadImage() async {
+    _imageUploadProgress = ValueNotifier(0);
+    _imageStorage.uploadImage([widget.img], isIncident: true,
+        progress: (int sent, int total) {
+      _imageUploadProgress?.value = sent / total;
+    });
+    return [""];
+  }
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.desc);
-    Future.microtask(() => getLoc);
+    Future.microtask(() => getLoc());
+
+    listener();
+  }
+
+  listener() {
+    _imageStorage.productImageUpload.listen((images) {
+      Utils.log(":::::uploaded::::::");
+      _postIncident(image: images);
+    }).onError((err) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+
+    _incidentBloc.postIncidentFetcher.listen((event) {
+      setState(() {
+        _isLoading = false;
+      });
+      showMessage(context, 'Report Submitted',
+          dismissLabel: 'Ok', header: 'Success');
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+        builder: (context) {
+          return BottomNav(
+              account: widget.account, securedStorage: widget.securedStorage);
+        },
+      ), (Route<dynamic> route) => false);
+      setState(() {});
+    }).onError((error) {
+      setState(() {
+        _isLoading = false;
+      });
+      showMessage(context, error, dismissLabel: 'Ok', header: 'Error');
+    });
+  }
+
+  _postIncident({String? image}) async {
+    if (!Utils.isEmptyOrNull(_controller.text) &&
+        !Utils.isEmptyOrNull(widget.img) &&
+        !Utils.isEmptyOrNull(widget.incidentType) &&
+        !Utils.isEmptyOrNull(widget.serviceType!) &&
+        !Utils.isEmptyOrNull(position)) {
+      String tk = await widget.securedStorage!.getUserToken();
+      Incident incident = Incident()
+        ..description = _controller.text
+        ..location = '${position.latitude}, ${position.longitude}'
+        ..subservicename = widget.incidentType
+        ..username = widget.account!.user.username
+        ..primaryImage = image!
+        ..primaryVideo = '';
+      _incidentBloc.postIncident(incident, tk);
+    }
   }
 
   getLoc() async {
@@ -122,7 +184,7 @@ class _PreviewReportCrimeState extends State<PreviewReportCrime> {
                   setState(() {
                     _isLoading = true;
                   });
-                  // uploadImage();
+                  uploadImage();
                 },
               ),
               const Divider(thickness: 1),

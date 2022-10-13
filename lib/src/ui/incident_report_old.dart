@@ -7,6 +7,7 @@ import 'package:socialpolice/src/model/account.dart';
 import 'package:socialpolice/src/model/service.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/res/enums.dart';
+import 'package:socialpolice/src/settings/secured_storage.dart';
 import 'package:socialpolice/src/ui/components/header.dart';
 import 'package:socialpolice/src/ui/components/two_row_text.dart';
 import 'package:socialpolice/src/ui/preview_report_crime.dart';
@@ -15,10 +16,12 @@ import 'package:socialpolice/src/utils/utils_upload.dart';
 class IncidentReportOld extends StatefulWidget {
   final Account? account;
   final String serviceType;
+  final SecuredStorage? securedStorage;
   const IncidentReportOld({
     Key? key,
     this.account,
     required this.serviceType,
+    this.securedStorage,
   }) : super(key: key);
 
   @override
@@ -75,6 +78,7 @@ class _IncidentReportOldState extends State<IncidentReportOld> {
                     img: _selectedFile!,
                     account: widget.account,
                     serviceType: widget.serviceType,
+                    securedStorage: widget.securedStorage,
                   ),
                 ),
               ),

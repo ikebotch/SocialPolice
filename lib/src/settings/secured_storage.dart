@@ -36,6 +36,7 @@ class SecuredStorage extends SecuredSettings {
   static const String DARK_THEME = "dark_theme";
   static const String SERVICES = "SERVICES";
   static const String USER_TOKEN = "user_token";
+  static const String USER_PASS = "user_pass";
   // static const String APP_SERVICES = "app_services";
   // static const String SUB_SERVICES = "app_sub_services";
 
@@ -80,7 +81,11 @@ class SecuredStorage extends SecuredSettings {
   // }
 
   setUserToken(String token) {
-    setAndSaveString(USER_TOKEN, json.encode(token));
+    setAndSaveString(USER_TOKEN, token);
+  }
+
+  setUserPass(String pass) {
+    setAndSaveString(USER_PASS, json.encode(pass));
   }
 
   // saveDevice(Device device) {
@@ -149,12 +154,17 @@ class SecuredStorage extends SecuredSettings {
   Future<User> getUserN() async {
     String? tokenMap = await getStringFromPrefs(NEW_USER);
     String? tokent = await getStringFromPrefs(USER_TOKEN);
+    String? passE = await getStringFromPrefs(USER_PASS);
 
     if (tokenMap != null) {
       User user = User.fromJson(json.decode(tokenMap));
       if (tokent != null) {
-        String token = json.decode(tokent);
+        String token = tokent;
         user.token = token;
+      }
+      if (passE != null) {
+        String pass = json.decode(passE);
+        user.password = pass;
       }
       return user;
     } else {

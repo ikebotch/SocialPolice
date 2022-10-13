@@ -1,3 +1,5 @@
+import 'package:socialpolice/src/utils/utils_date.dart';
+
 class Incident {
   String username = '';
   String subservicename = '';
@@ -5,6 +7,8 @@ class Incident {
   String description = '';
   String primaryVideo = '';
   String location = '';
+  DateTime? eventDate;
+  DateTime? repordedOn;
   String assignedOfficer = '';
 
   Incident();
@@ -16,6 +20,8 @@ class Incident {
     description = json["description"];
     primaryVideo = json["primaryVideo"];
     location = json["location"];
+    eventDate = DateUtil.parseDateTime(json['eventDate']);
+    repordedOn = DateUtil.parseDateTime(json['repordedOn']);
     if (json["assignedOfficer"] != null) {
       assignedOfficer = json["assignedOfficer"];
     }

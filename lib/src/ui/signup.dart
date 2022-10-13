@@ -17,7 +17,11 @@ import 'package:socialpolice/src/utils/navigations.dart';
 import 'package:socialpolice/src/utils/utils.dart';
 
 class Signup extends StatefulWidget {
-  const Signup({Key? key}) : super(key: key);
+  final SecuredStorage? securedStorage;
+  const Signup({
+    Key? key,
+    this.securedStorage,
+  }) : super(key: key);
 
   @override
   State<Signup> createState() => _SignupState();
@@ -90,13 +94,15 @@ class _SignupState extends State<Signup> with Dialogs {
     _loginBloc.loadingFetcher.listen((event) {
       _account = event;
       // _sec!.setAppData(_account!);
+      _sec!.setUserPass(passCtrlr!.text);
       _sec!.saveUser(_account!.user);
       showInSnackBar("Sign up Successfully", context, _key);
       context.read<ServicesProv>().addAllServicess(_account!.service);
       setState(() {
         _loading = false;
       });
-      AppRoute.navigateReplace(context, BottomNav(account: _account));
+      AppRoute.navigateReplace(context,
+          BottomNav(account: _account, securedStorage: widget.securedStorage));
     }).onError((error) {
       setState(() {
         _loading = false;

@@ -30,6 +30,7 @@ class _SplashState extends State<Splash> {
     bool isLoggedIn = await _securedStorage!.isLoggedIn();
     if (isLoggedIn) {
       if (user!.token != '') {
+        // user!.password = 'password';
         _loginBloc.login(user!);
 
         return;

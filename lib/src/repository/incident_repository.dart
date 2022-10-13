@@ -9,10 +9,12 @@ import 'package:socialpolice/src/utils/constants.dart';
 class IncidentRepository with AppApi {
   String INCIDENT_BASE_URL = Constants.incident;
 
-  Future<ApiResponse> postIncident(Incident incident) async {
+  Future<ApiResponse> postIncident(Incident incident, String token) async {
+    var headers = {'Authorization': 'Bearer $token'};
     var apiRequest = ApiRequest(
       "",
       Constants.POST,
+      headers: headers,
       authTokenType: AuthTokenType.CLIENT,
       body: json.encode(incident.toJson()),
     );

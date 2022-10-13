@@ -66,7 +66,9 @@ class _BottomNavState extends State<BottomNav>
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext ctx, index) {
                     if (index == 0) {
-                      return Home(account: widget.account);
+                      return Home(
+                          account: widget.account,
+                          securedStorage: widget.securedStorage);
                     }
                     if (index == 1) {
                       return const Search();

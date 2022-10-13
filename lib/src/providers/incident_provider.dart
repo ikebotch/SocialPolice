@@ -4,16 +4,16 @@ import 'package:rxdart/subjects.dart';
 
 class IncidentBloc {
   final _incidentRepository = IncidentRepository();
-  final postIncidentFetcher = PublishSubject<Incident>();
+  final postIncidentFetcher = PublishSubject<dynamic>();
   final incidentByIdFetcher = PublishSubject<Incident>();
   final incidentByUserFetcher = PublishSubject<List<Incident>>();
 
-  Stream<Incident> get postedIncident => postIncidentFetcher.stream;
+  Stream<dynamic> get postedIncident => postIncidentFetcher.stream;
   Stream<Incident> get incidentById => incidentByIdFetcher.stream;
   Stream<List<Incident>> get incidentByUsername => incidentByUserFetcher.stream;
 
-  postIncident(Incident incident) async {
-    final apiResponse = await _incidentRepository.postIncident(incident);
+  postIncident(Incident incident, String token) async {
+    final apiResponse = await _incidentRepository.postIncident(incident, token);
 
     if (apiResponse.status == 200 || apiResponse.status == 201) {
       postIncidentFetcher.sink.add(apiResponse.data);
