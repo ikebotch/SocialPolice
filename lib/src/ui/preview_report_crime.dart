@@ -158,8 +158,11 @@ class _PreviewReportCrimeState extends State<PreviewReportCrime> with Dialogs {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    var currentPosition = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high)
+        .then((value) => setState(() => position = value));
+
+    return position;
   }
 
   @override
