@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:socialpolice/src/model/account.dart';
+import 'package:socialpolice/src/model/incident.dart';
+import 'package:socialpolice/src/providers/incident_provider.dart';
 import 'package:socialpolice/src/res/colors.dart';
 import 'package:socialpolice/src/res/icons.dart';
 import 'package:socialpolice/src/settings/secured_storage.dart';
@@ -25,6 +27,8 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav>
     with SingleTickerProviderStateMixin {
   final PageController _pageCtrl = PageController();
+  List<Incident> incidentAll = [];
+  final IncidentBloc _incidentBloc = IncidentBloc();
 
   // User? user;
 
@@ -37,10 +41,25 @@ class _BottomNavState extends State<BottomNav>
     });
   }
 
+  listener() {
+    _incidentBloc.getIncidentFetcher.listen((event) {
+      incidentAll = event;
+    }).onError((error) {});
+  }
+
+  getAllIncidents() async {
+    String tk = await widget.securedStorage!.getUserToken();
+    _incidentBloc.getIncident(tk);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    Future.microtask(() => getAllIncidents());
+
+    listener();
   }
 
   @override
@@ -71,7 +90,10 @@ class _BottomNavState extends State<BottomNav>
                           securedStorage: widget.securedStorage);
                     }
                     if (index == 1) {
-                      return const Search();
+                      return Search(
+                        incident: incidentAll,
+                        securedStorage: widget.securedStorage,
+                      );
                     }
                     // if (index == 2) {
                     //   return const IncidentReportOld();

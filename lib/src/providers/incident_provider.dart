@@ -7,10 +7,12 @@ class IncidentBloc {
   final postIncidentFetcher = PublishSubject<dynamic>();
   final incidentByIdFetcher = PublishSubject<Incident>();
   final incidentByUserFetcher = PublishSubject<List<Incident>>();
+  final getIncidentFetcher = PublishSubject<List<Incident>>();
 
   Stream<dynamic> get postedIncident => postIncidentFetcher.stream;
   Stream<Incident> get incidentById => incidentByIdFetcher.stream;
   Stream<List<Incident>> get incidentByUsername => incidentByUserFetcher.stream;
+  Stream<List<Incident>> get getIncidentAll => incidentByUserFetcher.stream;
 
   postIncident(Incident incident, String token) async {
     final apiResponse = await _incidentRepository.postIncident(incident, token);
@@ -44,6 +46,21 @@ class IncidentBloc {
       incidentByIdFetcher.sink.add(Incident.fromJson(apiResponse.data));
     } else {
       incidentByIdFetcher.sink.addError(apiResponse.error!.errorMessage!);
+    }
+  }
+
+  getIncident(String token) async {
+    final apiResponse = await _incidentRepository.getIncident(token);
+
+    if (apiResponse.status == 200 || apiResponse.status == 201) {
+      List<Incident> inc = [];
+      for (var item in apiResponse.data) {
+        Incident incident = Incident.fromJson(item);
+        inc.add(incident);
+      }
+      getIncidentFetcher.sink.add(inc);
+    } else {
+      getIncidentFetcher.sink.addError(apiResponse.error!.errorMessage!);
     }
   }
 }
